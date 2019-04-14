@@ -30,7 +30,13 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    if ((num % 5 === 0) && (num % 3 === 0))
+        return 'FizzBuzz';
+        if (num % 3 === 0) 
+            return 'Fizz';      
+            if (num % 5 === 0)
+                return 'Buzz'; 
+    return num;      
 }
 
 
@@ -46,7 +52,7 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    return (n <= 1) ? 1 : n * getFactorial(n - 1);
 }
 
 
@@ -62,10 +68,9 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {    
+    return Array.from({ length: (n2 - n1 + 1)}, (_, i) => n1 + i).reduce((sum, item) => sum + item);
 }
-
 
 /**
  * Returns true, if a triangle can be built with the specified sides a,b,c and false in any other ways.
@@ -82,7 +87,7 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+    return (a + b > c && a + c > b && b + c > a);
 }
 
 
@@ -166,7 +171,7 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    return str.split('').filter((char, index, arr) => arr.indexOf(char) === arr.lastIndexOf(char))[0] || null;
 }
 
 
@@ -192,9 +197,10 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    const start = isStartIncluded ? '[' : '(';
+    const end = isEndIncluded ? ']' : ')';  
+    return start.concat(Array.of(a, b).sort().join(', '), end); 
 }
-
 
 /**
  * Reverse the specified string (put all chars in reverse order)
@@ -209,7 +215,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -226,7 +232,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return parseInt(num.toString().split('').reverse().join(''));
 }
 
 
@@ -251,7 +257,12 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    return ccn.toString().split('')
+        .reverse()
+        .map(x => parseInt(x))
+        .map((x,idx) => idx % 2 ? x * 2 : x )
+        .map(x => x > 9 ? (x % 10) + 1 : x )
+        .reduce((accum, x) => accum += x ) % 10 === 0;
 }
 
 
@@ -270,7 +281,12 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    const str = num.toString(),
+        res = str.split('').map(item => parseInt(item)).reduce((sum, item) => sum + item);  
+    if(str.length === 1){
+        return parseInt(str);
+    }   
+    return getDigitalRoot(res);
 }
 
 
@@ -296,7 +312,21 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    var stack = [],
+      brackets = {'(': ')', '{': '}', '[': ']', '<': '>'};
+
+    for (var i = 0; i < str.length; i++) {
+        if (i == 0) {
+            stack.push(str[i]);
+        }
+        else if (str[i] === brackets[stack[stack.length - 1]]) {
+            stack.pop();
+        }
+        else {
+            stack.push(str[i]);
+        }
+    }
+    return !stack.length;
 }
 
 
@@ -356,7 +386,13 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    const range = Array.from({length: n}, (_, i) => i);    
+    let result = '';
+    while (num > 0) {
+        result = range[num % n] + result;
+        num = (num - (num % n)) / n;
+    }
+    return result || range[number];            
 }
 
 
